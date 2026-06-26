@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour
@@ -14,10 +15,13 @@ public class PlayerMotor : MonoBehaviour
     private float jumpHeight = 1f;
 
     private float speed = 5f;
+
+    private LockerController lockerController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        lockerController = GetComponent<LockerController>();
     }
 
     // Update is called once per frame
@@ -42,5 +46,20 @@ public class PlayerMotor : MonoBehaviour
     {
         if (isGrounded)
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3f * gravity);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Locker"))
+        {
+            lockerController.toggleLocker();
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Locker"))
+        {
+            lockerController.toggleLocker();
+        }
     }
 }

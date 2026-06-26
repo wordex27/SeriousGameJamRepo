@@ -1,11 +1,15 @@
-    using UnityEngine;
+using System;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class MonsterController : MonoBehaviour
 {
 
+    public Transform[] idlePositions;
+    private GameObject player;
     public Transform targ;
-    public float attackDistance = 5f;
+    private LockerController lockerController;
+    private float attackDistance;
     private NavMeshAgent agent;
     private float distance;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,15 +22,37 @@ public class MonsterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance = Vector3.Distance(agent.transform.position, targ.position);
-        if (distance < attackDistance)
+        if (player == null)
         {
-            agent.isStopped = true;
+            player = GameObject.FindGameObjectWithTag("Player");
+            lockerController = player.GetComponent<LockerController>();
         }
-        else
-        {
-            agent.isStopped = false;
-            agent.destination = targ.position;
+        if (player != null && lockerController != null){
+            attackDistance = 1.5f;
+            if (!lockerController.getLocker()){
+                targ = player.transform;
+                distance = Vector3.Distance(agent.transform.position, targ.position);
+                if (distance < attackDistance)
+                {
+                    agent.isStopped = true;
+                }
+                else
+                {
+                    agent.isStopped = false;
+                    agent.destination = targ.position;
+                }
+            }
+            else
+            {
+                attackDistance = 3f;
+                distance = Vector3.Distance(agent.transform.position, targ.position);
+                if (distance < attackDistance)
+                {
+                    targ = idlePositions[UnityEngine.Random.Range(0, idlePositions.Length)];
+                }
+                agent.isStopped = false;
+                agent.destination = targ.position;
+            }
         }
     }
 }
