@@ -37,6 +37,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats: []
-    m_Colors: []
+    m_Colors:
+    - _PixelResolution: {r: 360, g: 180, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

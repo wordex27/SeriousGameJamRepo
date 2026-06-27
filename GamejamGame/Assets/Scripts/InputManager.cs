@@ -43,9 +43,16 @@ public class InputManager : MonoBehaviour
         walk.Disable();
     }
 
+    void Start()
+    {
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
         
     }
+
+
 }
